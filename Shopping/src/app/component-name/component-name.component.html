@@ -1,89 +1,101 @@
 ﻿
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-  <div>
+<form [formGroup]="myForm" (ngSubmit)="submitForm()">
+  <div class="form-group">
     <label for="jiraConnection">Jira Connection:</label>
-    <select id="jiraConnection" formControlName="jiraConnection">
+    <select id="jiraConnection" formControlName="jiraConnection" required>
       <option value="">Please select Jira connection</option>
-      <!-- Add options for Jira Connections here -->
+      <option value="connection1">Connection 1</option>
+      <option value="connection2">Connection 2</option>
+      <option value="connection3">Connection 3</option>
     </select>
     <div *ngIf="myForm.get('jiraConnection').invalid && myForm.get('jiraConnection').touched">
-      <div *ngIf="myForm.get('jiraConnection').hasError('required')">Please select a Jira connection.</div>
+      <div class="text-danger" *ngIf="myForm.get('jiraConnection').hasError('required')">Please select a Jira connection</div>
     </div>
   </div>
-
-  <div>
+  
+  <div class="form-group">
     <label for="jiraProject">Jira Project:</label>
-    <select id="jiraProject" formControlName="jiraProject">
+    <select id="jiraProject" formControlName="jiraProject" required>
       <option value="">Please select Jira project</option>
-      <!-- Add options for Jira Projects here -->
+      <option value="project1">Project 1</option>
+      <option value="project2">Project 2</option>
+      <option value="project3">Project 3</option>
     </select>
     <div *ngIf="myForm.get('jiraProject').invalid && myForm.get('jiraProject').touched">
-      <div *ngIf="myForm.get('jiraProject').hasError('required')">Please select a Jira project.</div>
+      <div class="text-danger" *ngIf="myForm.get('jiraProject').hasError('required')">Please select a Jira project</div>
     </div>
   </div>
-
-  <div>
-    <label for="microServiceType">Micro Service Implementation Type:</label>
-    <select id="microServiceType" formControlName="microServiceType">
+  
+  <div class="form-group">
+    <label for="implementationType">Micro Service Implementation Type:</label>
+    <select id="implementationType" formControlName="implementationType" required>
       <option value="">Please select micro service implementation type</option>
-      <option value="Individual">Individual</option>
-      <option value="Group">Group</option>
+      <option value="individual">Individual</option>
+      <option value="group">Group</option>
     </select>
-    <div *ngIf="myForm.get('microServiceType').invalid && myForm.get('microServiceType').touched">
-      <div *ngIf="myForm.get('microServiceType').hasError('required')">Please select a micro service implementation type.</div>
+    <div *ngIf="myForm.get('implementationType').invalid && myForm.get('implementationType').touched">
+      <div class="text-danger" *ngIf="myForm.get('implementationType').hasError('required')">Please select an implementation type</div>
     </div>
   </div>
-
-  <div>
+  
+  <div class="form-group">
     <label for="gitHub">GitHub:</label>
-    <select id="gitHub" formControlName="gitHub">
+    <select id="gitHub" formControlName="gitHub" required>
       <option value="">Please select GitHub</option>
-      <!-- Add options for GitHub here -->
+      <option value="github1">GitHub 1</option>
+      <option value="github2">GitHub 2</option>
+      <option value="github3">GitHub 3</option>
     </select>
     <div *ngIf="myForm.get('gitHub').invalid && myForm.get('gitHub').touched">
-      <div *ngIf="myForm.get('gitHub').hasError('required')">Please select a GitHub.</div>
+      <div class="text-danger" *ngIf="myForm.get('gitHub').hasError('required')">Please select a GitHub</div>
     </div>
   </div>
-
-  <div>
+  
+  <div class="form-group">
     <label for="gitHubRepository">GitHub Repository:</label>
-    <select id="gitHubRepository" formControlName="gitHubRepository">
+    <select id="gitHubRepository" formControlName="gitHubRepository" required>
       <option value="">Please select GitHub Repository</option>
-      <!-- Add options for GitHub Repositories here -->
+      <option value="repo1">Repository 1</option>
+      <option value="repo2">Repository 2</option>
+      <option value="repo3">Repository 3</option>
     </select>
-    <button (click)="openAddRepositoryPopup()">Add New Repository</button>
+    <button (click)="addNewRepository()">Add New Repository</button>
     <div *ngIf="myForm.get('gitHubRepository').invalid && myForm.get('gitHubRepository').touched">
-      <div *ngIf="myForm.get('gitHubRepository').hasError('required')">Please select a GitHub Repository.</div>
+      <div class="text-danger" *ngIf="myForm.get('gitHubRepository').hasError('required')">Please select a GitHub Repository</div>
     </div>
   </div>
-
-  <div *ngIf="showAddRepositoryPopup">
-    <div>
-      <label for="newRepository">Enter the Repository name:</label>
-      <input type="text" id="newRepository" formControlName="newRepository">
-      <button (click)="resetRepository()">Reset</button>
-      <button (click)="saveRepository()">Save</button>
+  
+  <div *ngIf="showAddRepositoryForm">
+    <div class="form-group">
+      <label for="newRepositoryName">Enter the Repository name:</label>
+      <input id="newRepositoryName" formControlName="newRepositoryName" required>
+      <button (click)="resetRepositoryName()">Reset</button>
+      <button (click)="saveRepositoryName()">Save</button>
+      <div *ngIf="myForm.get('newRepositoryName').invalid && myForm.get('newRepositoryName').touched">
+        <div class="text-danger" *ngIf="myForm.get('newRepositoryName').hasError('required')">Please enter a repository name</div>
+      </div>
     </div>
   </div>
-
-  <div>
+  
+  <div class="form-group">
     <label for="packageName">Package Name:</label>
-    <input type="text" id="packageName" formControlName="packageName">
+    <input id="packageName" formControlName="packageName" required>
     <div *ngIf="myForm.get('packageName').invalid && myForm.get('packageName').touched">
-      <div *ngIf="myForm.get('packageName').hasError('required')">Please enter a package name.</div>
+      <div class="text-danger" *ngIf="myForm.get('packageName').hasError('required')">Please enter a package name</div>
     </div>
   </div>
-
-  <div>
+  
+  <div class="form-group">
     <label for="userStories">User Stories:</label>
-    <select id="userStories" formControlName="userStories" multiple>
-      <option value="">Please select user stories</option>
-      <!-- Add options for User Stories here -->
+    <select id="userStories" formControlName="userStories" required multiple>
+      <option value="story1">Story 1</option>
+      <option value="story2">Story 2</option>
+      <option value="story3">Story 3</option>
     </select>
     <div *ngIf="myForm.get('userStories').invalid && myForm.get('userStories').touched">
-      <div *ngIf="myForm.get('userStories').hasError('required')">Please select at least one user story.</div>
+      <div class="text-danger" *ngIf="myForm.get('userStories').hasError('required')">Please select one or more user stories</div>
     </div>
   </div>
-
-  <button type="submit" [disabled]="myForm.invalid">Submit</button>
+  
+  <button type="submit">Submit</button>
 </form>

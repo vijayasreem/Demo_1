@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class ComponentNameComponent implements OnInit {
   myForm: FormGroup;
-  showAddRepositoryPopup: boolean = false;
+  showAddRepositoryForm: boolean = false;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -16,30 +16,47 @@ export class ComponentNameComponent implements OnInit {
     this.myForm = this.formBuilder.group({
       jiraConnection: ['', Validators.required],
       jiraProject: ['', Validators.required],
-      microServiceType: ['', Validators.required],
+      implementationType: ['', Validators.required],
       gitHub: ['', Validators.required],
       gitHubRepository: ['', Validators.required],
-      newRepository: [''],
+      newRepositoryName: ['', Validators.required],
       packageName: ['', Validators.required],
       userStories: ['', Validators.required]
     });
   }
 
-  onSubmit() {
-    // Handle form submission here
+  submitForm() {
+    if (this.myForm.valid) {
+      // Implement API call here
+    } else {
+      this.validateAllFormFields(this.myForm);
+    }
   }
 
-  openAddRepositoryPopup() {
-    this.showAddRepositoryPopup = true;
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      } else {
+        control.markAsTouched({ onlySelf: true });
+      }
+    });
   }
 
-  resetRepository() {
-    this.myForm.get('newRepository').setValue('');
+  addNewRepository() {
+    this.showAddRepositoryForm = true;
   }
 
-  saveRepository() {
-    const newRepository = this.myForm.get('newRepository').value;
-    // Save new repository here
-    this.showAddRepositoryPopup = false;
+  resetRepositoryName() {
+    this.myForm.get('newRepositoryName').reset();
+  }
+
+  saveRepositoryName() {
+    if (this.myForm.get('newRepositoryName').valid) {
+      // Implement API call here
+    } else {
+      this.myForm.get('newRepositoryName').markAsTouched();
+    }
   }
 }
